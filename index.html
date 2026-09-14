@@ -499,7 +499,11 @@
   .find input::placeholder{color:#7079a0}
   /* readers who asked their device for more contrast get the greys lifted */
   @media (prefers-contrast:more){:root{--dim:#b4bccf;--faint:#98a1b6}.find input::placeholder{color:#98a1b6}}
-  .find .row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:8px}
+  /* under the search box: the tally on its own line, then the controls —
+     hide done and sort on the left, info on the right */
+  .find .row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px}
+  .find .row .ctl{display:flex;gap:5px;align-items:center}
+  .find .tally{margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   /* typed-filter suggestions under the search, and the accepted facet chips */
   .sugg{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
   .sugg:empty,.facets:empty{display:none}
@@ -1093,14 +1097,14 @@
       <button class="xbtn sm qx" id="qClear" hidden aria-label="Clear the search" title="Clear the search">×</button>
       <div class="sugg" id="sugg" role="listbox" aria-label="Filter suggestions"></div>
       <div class="facets" id="facets" aria-label="Active filters"></div>
+      <div class="tally" aria-live="polite"><span id="tally"></span> · <b id="progress">0</b> done<span id="missedN"></span><span id="slotName"></span></div>
       <div class="row">
-        <div class="tally" aria-live="polite"><span id="tally"></span> · <b id="progress">0</b> done<span id="missedN"></span><span id="slotName"></span></div>
-        <span style="display:flex;gap:5px;align-items:center">
+        <span class="ctl">
           <button class="btn small teal" id="hideBtn" aria-pressed="false" title="Take done and missed missions out of the list and table">Hide done</button>
           <span class="lbl">Sort</span>
           <button class="btn small teal" id="sortBtn" title="A–Z groups by category. Chart follows the poster left to right, which is the story order.">A–Z</button>
-          <button class="btn small teal" id="infoBtn" aria-expanded="false">Info</button>
         </span>
+        <button class="btn small teal" id="infoBtn" aria-expanded="false">Info</button>
       </div>
     </div>
 
