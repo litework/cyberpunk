@@ -803,7 +803,9 @@
   .card .group{display:flex;flex-wrap:wrap;gap:3px 8px;margin-top:2px;font-size:11.5px}
   .card .group a.ref{border:0;color:#8fd8ea}
   .card .group a.ref.done{color:var(--dim);text-decoration:line-through}
-  .card .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .card .acts{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px}
+  .card .acts .btn{width:100%;padding:0 8px;white-space:nowrap}
+  .card .acts .ico{flex:none}
   .card .report{margin-top:10px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
   .card .report a{color:var(--faint);text-decoration:none;border-bottom:1px solid transparent}
   .card .report a:hover{color:var(--dim);border-bottom-color:var(--dim)}
@@ -1232,7 +1234,7 @@
       <div class="acts">
         <button class="btn" id="doneBtn" aria-pressed="false">Mark done</button>
         <button class="btn teal" id="missBtn" aria-pressed="false" title="Closed for good — a point of no return passed, or a failed gig. NEXT and READY skip it.">Missed</button>
-        <button class="btn teal" id="linkBtn">Copy link</button>
+        <button class="btn teal" id="linkBtn" title="Copy a link to this mission"><svg class="ico" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M6.5 9.5a3 3 0 0 0 4.2 0l2.3-2.3a3 3 0 0 0-4.2-4.2L7.6 4.2M9.5 6.5a3 3 0 0 0-4.2 0L3 8.8a3 3 0 0 0 4.2 4.2l1.2-1.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Copy link</span></button>
         <a class="btn teal" id="wikiBtn" href="#" target="_blank" rel="noopener" title="Open this mission on the Cyberpunk Wiki (fandom)">Wiki<svg class="ext" viewBox="0 0 10 10" width="9" height="9" aria-hidden="true"><path d="M2 1h7v7M9 1L1 9" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
       </div>
       <div class="report" id="report" hidden><a href="#" id="reportBtn" target="_blank" rel="noopener">Report an error</a></div>
@@ -2661,9 +2663,10 @@ document.getElementById('doneBtn').onclick = () => { const m = missions.find(v =
 document.getElementById('missBtn').onclick = () => { const m = missions.find(v => v.id === picked); if (m) toggleMissed(m); };
 document.getElementById('linkBtn').onclick = async e => {
   const b = e.currentTarget, url = location.href.split('#')[0] + location.hash;
-  try { await navigator.clipboard.writeText(url); b.textContent = 'Copied'; }
-  catch { b.textContent = 'Copy failed'; }
-  setTimeout(() => { b.textContent = 'Copy link'; }, 1400);
+  const label = b.querySelector('span');
+  try { await navigator.clipboard.writeText(url); label.textContent = 'Copied'; }
+  catch { label.textContent = 'Copy failed'; }
+  setTimeout(() => { label.textContent = 'Copy link'; }, 1400);
 };
 /* requirement links inside the card jump to that mission */
 card.addEventListener('click', e => {
@@ -3331,8 +3334,15 @@ document.getElementById('index').innerHTML =
       .map(m => `<li>${esc(m.title)}${m.giver ? ' — ' + esc(m.giver) : ''}${m.district ? ' — ' + esc(m.district) : ''}` +
                 `${m.notes.length ? ' — ' + esc(m.notes.join('; ')) : ''}</li>`).join('') + '</ul>').join('');
 
-document.getElementById('zIn').onclick = () => zoomAt(stage.clientWidth / 2, stage.clientHeight / 2, scale * 1.5);
-document.getElementById('zOut').onclick = () => zoomAt(stage.clientWidth / 2, stage.clientHeight / 2, scale / 1.5);
+/* zoom steps hold the selected tile still (or the centre when nothing is
+   selected); 1:1 brings the selected tile to the middle at full size */
+function zoomStep(next) {
+  const m = picked !== null ? missions.find(v => v.id === picked) : null;
+  if (m && m.x !== null) zoomAt(tx + (m.x + m.w / 2) * scale, ty + (m.y + m.h / 2) * scale, next);
+  else zoomAt(stage.clientWidth / 2, stage.clientHeight / 2, next);
+}
+document.getElementById('zIn').onclick = () => zoomStep(scale * 1.5);
+document.getElementById('zOut').onclick = () => zoomStep(scale / 1.5);
 document.getElementById('zFit').onclick = fit;
 /* title bar colour: the theme-color meta, which installed windows and phone
    browser bars follow live; remembered */
@@ -3407,7 +3417,10 @@ document.getElementById('fx').onclick = e => {
   e.currentTarget.style.color = fxOn ? '' : 'var(--faint)';
   if (!fxOn) blitStill();   /* motion off leaves the still, not a black hole */
 };
-document.getElementById('z100').onclick = () => zoomAt(stage.clientWidth / 2, stage.clientHeight / 2, 1);
+document.getElementById('z100').onclick = () => {
+  const m = picked !== null ? missions.find(v => v.id === picked) : null;
+  if (m && m.x !== null) centerOn(m, 1); else zoomAt(stage.clientWidth / 2, stage.clientHeight / 2, 1);
+};
 /* the hint leaves after the first tile click or 20 s, and stays gone */
 const hint = document.querySelector('.hint');
 function dropHint() { if (hint.classList.contains('gone')) return; hint.classList.add('gone'); store.set('mt.hint', 1); }
@@ -3567,8 +3580,8 @@ addEventListener('keydown', e => {
   if (e.key === 'Escape') { const o = panelOpen(); if (o) setDialog(o, false); else if (picked !== null) closeCard(); else clearSearch(); }
   if (e.key === '0') fit();
   /* - and = (the unshifted + key) zoom about the centre, same step as the buttons */
-  if (e.key === '-' || e.key === '_') zoomAt(stage.clientWidth / 2, stage.clientHeight / 2, scale / 1.5);
-  if (e.key === '=' || e.key === '+') zoomAt(stage.clientWidth / 2, stage.clientHeight / 2, scale * 1.5);
+  if (e.key === '-' || e.key === '_') zoomStep(scale / 1.5);
+  if (e.key === '=' || e.key === '+') zoomStep(scale * 1.5);
   if (e.key === '[') step(-1);
   if (e.key === ']') step(1);
   if (e.key === 'n' || e.key === 'N') nextBtn.click();
