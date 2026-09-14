@@ -1,0 +1,16 @@
+{
+  "name": "Cyberpunk 2077 Mission Tree",
+  "short_name": "Cyberpunk 2077",
+  "description": "Every mission, side job, gig and ending in Cyberpunk 2077 and Phantom Liberty — searchable, with progress you can share by link.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#07080d",
+  "theme_color": "#07080d",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

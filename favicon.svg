@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- a notched tile in the signature yellow, holding a three-node tree -->
+  <path d="M4 4H50L60 14V60H14L4 50Z" fill="#fcee0a"/>
+  <path d="M10 10H47L54 17V54H17L10 47Z" fill="#0c0d14"/>
+  <rect x="17" y="18" width="12" height="12" fill="#fcee0a"/>
+  <rect x="35" y="18" width="12" height="12" fill="#00c0ff"/>
+  <rect x="26" y="36" width="12" height="12" fill="#fcee0a"/>
+  <rect x="29" y="23" width="6" height="2" fill="#8f8f8f"/>
+  <rect x="31" y="30" width="2" height="6" fill="#8f8f8f"/>
+</svg>
