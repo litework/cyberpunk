@@ -503,6 +503,8 @@
      hide done and sort on the left, info on the right */
   .find .row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px}
   .find .row .ctl{display:flex;gap:5px;align-items:center}
+  .find .row #nextBtn2{display:none}
+  .find .row #nextBtn2[hidden]{display:none}
   .find .tally{margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   /* typed-filter suggestions under the search, and the accepted facet chips */
   .sugg{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
@@ -1051,7 +1053,12 @@
     #info dl{display:none}
     .about.small{top:auto;max-height:80%;border-top:2px solid var(--red);box-shadow:0 -20px 40px rgba(0,0,0,.6)}
     .about[hidden]{display:none}
-    .tools,.sheets{display:none}
+    .tools{display:none}
+    /* NEXT floats above the tab bar on MAP and TABLE; the sheet tabs are the tab bar's job */
+    .sheets{left:8px;bottom:64px}
+    .sheets .tab,.sheets .back{display:none}
+    main.carded .sheets{display:none}   /* the bottom sheet covers that corner */
+    .find .row #nextBtn2{display:inline-flex}
     .ask{top:10px;font-size:12px}
     .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;height:56px;z-index:9;gap:6px;padding:6px 8px;
             background:#090b10;border-top:1px solid var(--line)}
@@ -1106,7 +1113,10 @@
           <span class="lbl">Sort</span>
           <button class="btn small teal" id="sortBtn" title="A–Z groups by category. Chart follows the poster left to right, which is the story order.">A–Z</button>
         </span>
-        <button class="btn small teal" id="infoBtn" aria-expanded="false">Info</button>
+        <span class="ctl">
+          <button class="btn small" id="nextBtn2" hidden title="Open the next story mission">Next ▶</button>
+          <button class="btn small teal" id="infoBtn" aria-expanded="false">Info</button>
+        </span>
       </div>
     </div>
 
@@ -2914,6 +2924,9 @@ let currentSugg = [];
 /* the three prologues are a choice of one; once any is done the others are
    not on your path and NEXT skips them */
 const LIFEPATHS = ['THE NOMAD', 'THE STREETKID', 'THE CORPO-RAT'];
+/* the two lifepaths you didn't pick: once one prologue is done the others
+   leave the list and table (a search still finds them) */
+const otherPath = m => LIFEPATHS.includes(m.title) && !done.has(m.slug) && missions.some(o => LIFEPATHS.includes(o.title) && o !== m && done.has(o.slug));
 function status(m) {
   if (done.has(m.slug)) return 'done';
   if (missed.has(m.slug)) return 'missed';
@@ -2961,6 +2974,7 @@ function storyRank(m, pl) {
 }
 const nextBtn = document.getElementById('nextBtn');
 nextBtn.onclick = () => { if (nextId !== null) { picked = null; select(nextId, true); } };
+document.getElementById('nextBtn2').onclick = () => { if (nextId !== null) { picked = null; select(nextId, true); if (isSheet()) setTab('map'); } };
 /* the row checkboxes and rows in the list also need to know about the table's
    selection highlight; select() handles both */
 
@@ -2970,7 +2984,7 @@ function render() {
   qClear.hidden = !q.value;
   suggEl.innerHTML = currentSugg.map((f, i) => `<button data-i="${i}" role="option"><i>${LABEL[f.type]}</i>${esc(f.value)}</button>`).join('');
   const shown = missions.filter(m => (active.has(m.kind) || (active.has(NOTE_K) && m.notes.length > 0)) && (!term || m._hay.includes(term)) && facets.every(f => facetHit(f, m))
-    && !(hideDone && (done.has(m.slug) || missed.has(m.slug))));
+    && !(hideDone && (done.has(m.slug) || missed.has(m.slug))) && (term || !otherPath(m)));
   const narrowed = !!term || facets.length > 0 || active.size < kinds.length;
   lit = narrowed ? new Set(shown.map(m => m.id)) : new Set();
   dirty = true;
@@ -2993,6 +3007,7 @@ function render() {
   const choosing = nx && LIFEPATHS.includes(nx.title);
   nextIds = new Set(choosing ? shown.filter(m => LIFEPATHS.includes(m.title)).map(m => m.id) : (nx ? [nx.id] : []));
   nextBtn.hidden = nextId === null;
+  document.getElementById('nextBtn2').hidden = nextId === null;
   if (nx) {
     const who = choosing ? 'Pick a lifepath' : nx.title;
     nextBtn.title = 'Next: ' + who; nextBtn.querySelector('.who').textContent = who;
@@ -3096,7 +3111,7 @@ function renderTable(shown) {
   if (!shown) {
     const term = q.value.trim().toLowerCase();
     shown = missions.filter(m => (active.has(m.kind) || (active.has(NOTE_K) && m.notes.length > 0)) && (!term || m._hay.includes(term)) && facets.every(f => facetHit(f, m))
-      && !(hideDone && (done.has(m.slug) || missed.has(m.slug))));
+      && !(hideDone && (done.has(m.slug) || missed.has(m.slug))) && (term || !otherPath(m)));
   }
   const keep = tblScroll.scrollTop;
   const info = new Map();
