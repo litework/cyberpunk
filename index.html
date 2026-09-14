@@ -2974,7 +2974,12 @@ function storyRank(m, pl) {
 }
 const nextBtn = document.getElementById('nextBtn');
 nextBtn.onclick = () => { if (nextId !== null) { picked = null; select(nextId, true); } };
-document.getElementById('nextBtn2').onclick = () => { if (nextId !== null) { picked = null; select(nextId, true); if (isSheet()) setTab('map'); } };
+/* the list's own NEXT stays on the list: it highlights the row and scrolls to it */
+document.getElementById('nextBtn2').onclick = () => {
+  if (nextId === null) return;
+  picked = null; select(nextId, true);
+  results.querySelector(`.hit[data-id="${nextId}"]`)?.scrollIntoView({ block: 'center', behavior: fxOn ? 'smooth' : 'auto' });
+};
 /* the row checkboxes and rows in the list also need to know about the table's
    selection highlight; select() handles both */
 
