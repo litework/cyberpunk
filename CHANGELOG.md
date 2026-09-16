@@ -6,7 +6,7 @@ Numbering: `1.x` is a round of changes agreed in advance; `1.x.y` is a nudge ins
 
 ## 1.0
 
-- **1.0.7** — Update bar removed; updates install silently and show on the next visit. 
+- **1.0.7** — Update bar removed; updates install silently and show on the next visit. `b90b6fc`
 - **1.0.6** — The docked card sits on its own darker surface with a shadow, and an "All missions" caption separates it from the list beneath. `ae1dc03`
 - **1.0.5** — The update bar's Reload now actually lands on the new version: the worker fills its cache past the browser's HTTP cache. `1a56f19`
 - **1.0.4** — On desktop the list stays beneath the docked card instead of being replaced by it. `4c10a0a`
