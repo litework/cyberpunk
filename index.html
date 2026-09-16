@@ -899,6 +899,16 @@
   .k-list li{display:flex;align-items:flex-start}
   .k-list li b{margin-top:2px}
   /* KEY: connectors in the chart's own idiom */
+  /* the poster's own connector legend, redrawn: three diagrams whose tiles
+     carry the explanation, like the original */
+  .kconn3{display:flex;flex-direction:column;gap:6px}
+  .kconn3 svg{display:block;width:100%;height:auto;background:#080a10;border:1px solid var(--line)}
+  .kconn3 .tr{fill:none;stroke:#8f8f8f;stroke-width:2.2}
+  .kconn3 .tr3{fill:none;stroke:#8f8f8f;stroke-width:3.2}
+  .kconn3 .ti{fill:#0c0d14;stroke:#dfe3ea;stroke-width:1.4}
+  .kconn3 .tt{fill:#f7f7ed;font-family:"Rajdhani",system-ui,sans-serif;font-weight:700;text-anchor:middle;letter-spacing:.02em}
+  .kconn3 .dec{fill:#000;stroke:#8f8f8f;stroke-width:1.5}
+  .kconn3 .dt{fill:#fff;font-family:"Rajdhani",system-ui,sans-serif;font-weight:700;font-size:11px;text-anchor:middle}
   .kconn2{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
   .kconn2 figure{margin:0;background:#080a10;border:1px solid var(--line);padding:8px 8px 7px}
   .kconn2 svg{display:block;width:100%;height:auto}
@@ -1123,7 +1133,7 @@
     <button class="totop" id="toTop" hidden title="Back to the top of the list" aria-label="Back to the top of the list">▲</button>
 
     <div class="foot">
-      <span>Fan-made · not endorsed by CDPR · <b>v1.0.8</b></span>
+      <span>Fan-made · not endorsed by CDPR · <b>v1.0.9</b></span>
       <button class="btn icon small fsFoot" id="fsFoot" title="Full screen (F)" aria-label="Full screen"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <a href="#" id="footAbout">About</a>
     </div>
@@ -1199,32 +1209,11 @@
           </div>
         </div>
         <div class="ksec tree">
-          <div class="klabel">Connectors <em>as drawn on the chart</em></div>
-          <div class="kconn2">
-            <figure>
-              <svg viewBox="0 0 120 44" aria-hidden="true"><path d="M40 22h40" class="tr"/><rect x="6" y="8" width="34" height="28" class="ti y"/><rect x="80" y="8" width="34" height="28" class="ti c"/></svg>
-              <figcaption><b>One after the other</b>Left, then right</figcaption>
-            </figure>
-            <figure>
-              <svg viewBox="0 0 120 44" aria-hidden="true"><path d="M40 16h40M40 28h40" class="tr"/><rect x="6" y="8" width="34" height="28" class="ti c"/><rect x="80" y="8" width="34" height="28" class="ti c"/></svg>
-              <figcaption><b>Either order</b>Two lines: no set sequence</figcaption>
-            </figure>
-            <figure>
-              <svg viewBox="0 0 120 64" aria-hidden="true"><path d="M40 32h20v-18h20M60 32v18h20" class="tr"/><rect x="6" y="18" width="34" height="28" class="ti y"/><rect x="80" y="2" width="34" height="24" class="ti c"/><rect x="80" y="38" width="34" height="24" class="ti c"/></svg>
-              <figcaption><b>Leads to both</b>Finishing it opens both</figcaption>
-            </figure>
-            <figure>
-              <svg viewBox="0 0 120 64" aria-hidden="true"><path d="M40 32h10M62 32h8v-18h10M70 32v18h10" class="tr"/><rect x="50" y="26" width="12" height="12" class="dec"/><rect x="6" y="18" width="34" height="28" class="ti y"/><rect x="80" y="2" width="34" height="24" class="ti c"/><rect x="80" y="38" width="34" height="24" class="ti c"/></svg>
-              <figcaption><b>A choice</b>The black square: one of the two</figcaption>
-            </figure>
-            <figure>
-              <svg viewBox="0 0 120 64" aria-hidden="true"><path d="M40 14h20v36h-20M60 32h20" class="tr"/><path d="M58 30h6v4h-6z" class="dec"/><rect x="6" y="2" width="34" height="24" class="ti c"/><rect x="6" y="38" width="34" height="24" class="ti c"/><rect x="80" y="18" width="34" height="28" class="ti y"/></svg>
-              <figcaption><b>Both needed</b>Do both before the right one</figcaption>
-            </figure>
-            <figure>
-              <svg viewBox="0 0 120 64" aria-hidden="true"><path d="M60 26v12" class="tr"/><rect x="43" y="2" width="34" height="24" class="ti y"/><rect x="43" y="38" width="34" height="24" class="ti c"/></svg>
-              <figcaption><b>During</b>The lower one happens inside the upper</figcaption>
-            </figure>
+          <div class="klabel">Connectors <em>as the poster explains them</em></div>
+          <div class="kconn3">
+            <svg viewBox="0 0 300 122" aria-hidden="true"><defs><marker id="kar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L8 4L0 8z" fill="#8f8f8f"/></marker></defs><path d="M62 29h22" class="tr" marker-end="url(#kar)"/><path d="M146 29h22" class="tr" marker-end="url(#kar)"/><path d="M62 89h22M62 95h22" class="tr"/><path d="M232 52v18" class="tr"/><rect x="6" y="6" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="34.0" y="24.8">THESE TWO</tspan><tspan x="34.0" y="33.2">MISSIONS</tspan></text><rect x="90" y="6" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="118.0" y="20.6">CAN ONLY BE</tspan><tspan x="118.0" y="29.0">COMPLETED ONE</tspan><tspan x="118.0" y="37.4">AFTER THE OTHER</tspan></text><rect x="204" y="6" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="232.0" y="24.8">DURING THIS</tspan><tspan x="232.0" y="33.2">MISSION</tspan></text><rect x="204" y="70" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="232.0" y="84.6">THIS MISSION</tspan><tspan x="232.0" y="93.0">TAKES PLACE</tspan><tspan x="232.0" y="101.4">INSIDE OF IT</tspan></text><rect x="6" y="69" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="34.0" y="87.8">THESE TWO</tspan><tspan x="34.0" y="96.2">MISSIONS</tspan></text><rect x="90" y="69" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="118.0" y="83.6">CAN BE</tspan><tspan x="118.0" y="92.0">COMPLETED</tspan><tspan x="118.0" y="100.4">IN ANY ORDER</tspan></text></svg>
+            <svg viewBox="0 0 300 130" aria-hidden="true"><path d="M62 65h16v-36h10" class="tr" marker-end="url(#kar)"/><path d="M78 65v36h10" class="tr" marker-end="url(#kar)"/><path d="M210 29h12v72h-12M222 65h10" class="tr"/><path d="M222 65h10" class="tr" marker-end="url(#kar)"/><rect x="6" y="42" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="34.0" y="60.8">THIS</tspan><tspan x="34.0" y="69.2">MISSION</tspan></text><rect x="90" y="6" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="118.0" y="24.8">LEADS TO</tspan><tspan x="118.0" y="33.2">BOTH OF</tspan></text><rect x="90" y="78" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="118.0" y="96.8">THESE TWO</tspan><tspan x="118.0" y="105.2">MISSIONS</tspan></text><rect x="154" y="6" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="182.0" y="24.8">EITHER</tspan><tspan x="182.0" y="33.2">ONE OF</tspan></text><rect x="154" y="78" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="182.0" y="96.8">THESE TWO</tspan><tspan x="182.0" y="105.2">MISSIONS</tspan></text><rect x="238" y="42" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="266.0" y="60.8">LEADS TO</tspan><tspan x="266.0" y="69.2">THIS MISSION</tspan></text></svg>
+            <svg viewBox="0 0 300 130" aria-hidden="true"><path d="M62 65h10" class="tr3"/><path d="M84 65h0v-36h6M84 65v36h6" class="tr3"/><path d="M84 29h6" class="tr3" marker-end="url(#kar)"/><path d="M84 101h6" class="tr3" marker-end="url(#kar)"/><rect x="66" y="58" width="14" height="14" class="dec"/><text class="dt" x="73" y="69">!</text><path d="M210 29h12v72h-12" class="tr3"/><path d="M222 65h4" class="tr3"/><rect x="216" y="58" width="14" height="14" class="dec"/><text class="dt" x="223" y="69">+</text><path d="M230 65h8" class="tr3" marker-end="url(#kar)"/><rect x="6" y="42" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="34.0" y="56.6">THIS MISSION</tspan><tspan x="34.0" y="65.0">REQUIRES</tspan><tspan x="34.0" y="73.4">A DECISION</tspan></text><rect x="90" y="6" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="118.0" y="20.6">WHICH LEADS</tspan><tspan x="118.0" y="29.0">TO EITHER</tspan><tspan x="118.0" y="37.4">ONE OF</tspan></text><rect x="90" y="78" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="118.0" y="96.8">THESE TWO</tspan><tspan x="118.0" y="105.2">MISSIONS</tspan></text><rect x="154" y="6" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="182.0" y="24.8">COMPLETING</tspan><tspan x="182.0" y="33.2">BOTH OF</tspan></text><rect x="154" y="78" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="182.0" y="96.8">THESE TWO</tspan><tspan x="182.0" y="105.2">MISSIONS</tspan></text><rect x="238" y="42" width="56" height="46" class="ti"/><text class="tt" font-size="7.2"><tspan x="266.0" y="56.6">IS REQUIRED</tspan><tspan x="266.0" y="65.0">FOR THIS</tspan><tspan x="266.0" y="73.4">MISSION</tspan></text></svg>
           </div>
         </div>
       </div>
