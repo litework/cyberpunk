@@ -550,6 +550,9 @@
   .chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   @media (pointer:coarse){.chip{min-height:34px}}
 
+  .listcap{display:none;align-items:center;gap:10px;flex:0 0 auto;padding:8px 16px 5px;font-size:10.5px;letter-spacing:.22em;
+           text-transform:uppercase;font-weight:600;color:var(--dim);background:linear-gradient(180deg,#0a1416,transparent)}
+  .listcap i{flex:1;height:1px;background:linear-gradient(90deg,rgba(79,224,230,.5),transparent)}
   .results{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
            flex:1 1 auto;min-height:120px;touch-action:pan-y;scrollbar-width:thin;scrollbar-color:var(--accent) #0a1416}
   /* group headers stay put while the list scrolls under them */
@@ -770,8 +773,10 @@
      chart is never covered; the list comes back with the arrow, × or Esc */
   @media (min-width:901px){
     aside>.card{position:relative;left:auto;top:auto;width:auto;max-width:none;flex:0 0 auto;max-height:52%;overflow:auto;
-      clip-path:none;box-shadow:none;border:0;border-left:3px solid;border-bottom:1px solid var(--line);
-      background:rgba(9,11,17,.5);padding-top:48px;scrollbar-width:thin;scrollbar-color:var(--accent) #0a1416}
+      clip-path:none;border:0;border-left:3px solid;border-top:1px solid var(--line);border-bottom:2px solid var(--line);
+      background:#0b0e15;box-shadow:0 10px 24px rgba(0,0,0,.55);padding-top:48px;scrollbar-width:thin;scrollbar-color:var(--accent) #0a1416}
+    /* a caption between the card and the list, so the list reads as its own thing */
+    aside>.card.on~.listcap{display:flex}
     /* the list stays beneath the card and keeps scrolling */
     /* while you're typing, the results come forward; leaving the box brings the card back */
     aside>.card .toList{display:inline-flex;position:absolute;left:12px;top:8px;min-height:30px;padding:0 10px;
@@ -1118,12 +1123,13 @@
     </div>
 
     <div class="chips" id="chips"></div>
+    <div class="listcap" aria-hidden="true"><span>All missions</span><i></i></div>
     <div class="results" id="results"></div>
     <button class="totop" id="toTop" hidden title="Back to the top of the list" aria-label="Back to the top of the list">▲</button>
 
     <div class="upd" id="upd" hidden><span>A new version is ready.</span><button class="btn small" id="updReload">Reload</button><button class="xbtn sm" id="updX" aria-label="Dismiss">×</button></div>
     <div class="foot">
-      <span>Fan-made · not endorsed by CDPR · <b>v1.0.5</b></span>
+      <span>Fan-made · not endorsed by CDPR · <b>v1.0.6</b></span>
       <button class="btn icon small fsFoot" id="fsFoot" title="Full screen (F)" aria-label="Full screen"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <a href="#" id="footAbout">About</a>
     </div>
@@ -2710,7 +2716,7 @@ const cardSlot = document.createComment('card');
 card.parentNode.insertBefore(cardSlot, card);
 const dockMQ = matchMedia('(min-width:901px)');
 function dockCard() {
-  if (dockMQ.matches) { if (card.parentNode !== results.parentNode) results.parentNode.insertBefore(card, results); }
+  if (dockMQ.matches) { if (card.parentNode !== results.parentNode) results.parentNode.insertBefore(card, document.querySelector('.listcap')); }
   else if (card.parentNode !== cardSlot.parentNode) cardSlot.parentNode.insertBefore(card, cardSlot);
 }
 dockCard(); dockMQ.addEventListener('change', dockCard);
