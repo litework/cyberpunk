@@ -6,7 +6,7 @@ Numbering: `1.x` is a round of changes agreed in advance; `1.x.y` is a nudge ins
 
 ## 1.0
 
-- **1.0.4** — On desktop the list stays beneath the docked card instead of being replaced by it. 
+- **1.0.4** — On desktop the list stays beneath the docked card instead of being replaced by it. `4c10a0a`
 - **1.0.3** — A typed search no longer moves NEXT; chips and filters still scope it. `c3c0867`
 - **1.0.2** — Page Up / Page Down scroll the list a screen at a time. `eb36928`
 - **1.0.1** — Nudges since the reset: panel head tidied; zoom holds the selected tile and 1:1 lands on it; card actions as a 2×2 grid with a link icon; NEXT on every phone page (the list's stays on the list); unchosen lifepaths leave the list once one is done. `fd049fe`
