@@ -5,7 +5,7 @@
    it lives in localStorage. Bump CACHE with each release to drop old caches, and the
    ?v= on index.html's og:image and README's <img> so chat apps and GitHub's
    image cache fetch the new preview; add the line to CHANGELOG.md. */
-const CACHE = 'mission-tree-v1.0.1';
+const CACHE = 'mission-tree-v1.0.2';
 const SHELL = ['./', './index.html', './favicon.svg', './favicon-32.png', './apple-touch-icon.png', './icon-192.png', './icon-512.png', './manifest.webmanifest'];
 
 self.addEventListener('install', e => {
