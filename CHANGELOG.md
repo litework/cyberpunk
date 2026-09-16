@@ -6,7 +6,7 @@ Numbering: `1.x` is a round of changes agreed in advance; `1.x.y` is a nudge ins
 
 ## 1.0
 
-- **1.0.9** — The KEY's connector legend is redrawn after the poster's own: three diagrams whose tiles carry the explanation. 
+- **1.0.9** — The KEY's connector legend is redrawn after the poster's own: three diagrams whose tiles carry the explanation. `6d6c3f8`
 - **1.0.8** — The list's back-to-top button gets its styling back (1.0.6 had dropped it, leaving a bare white bar). `f971d85`
 - **1.0.7** — Update bar removed; updates install silently and show on the next visit. `b90b6fc`
 - **1.0.6** — The docked card sits on its own darker surface with a shadow, and an "All missions" caption separates it from the list beneath. `ae1dc03`
