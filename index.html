@@ -586,7 +586,9 @@
   .hit[data-on="1"]{background:linear-gradient(90deg,rgba(252,238,10,.10),transparent 70%)}
   .hit .bar{width:4px;height:100%;min-height:28px}
   .hit .name,.hit .meta,.hit .req{display:block;overflow-wrap:anywhere}
-  .hit .name{font-weight:700;letter-spacing:.06em;font-size:13.5px;text-transform:uppercase}
+  /* the name is the one line in the row set in mixed case; the meta beneath it
+     stays small capitals, so name and chrome read as two different things */
+  .hit .name{font-weight:700;letter-spacing:.01em;font-size:15px;line-height:1.15;text-transform:none}
   .hit .meta{font-size:11px;color:var(--dim);letter-spacing:.08em;margin-top:2px;text-transform:uppercase}
   .hit .req{font-size:11px;color:#c9bc14;letter-spacing:.06em;margin-top:2px;text-transform:uppercase}
   .hit[data-done="1"] .name{color:var(--dim)}
@@ -708,7 +710,7 @@
   .tbl .row td.c{width:30px;padding:5px 4px 0 10px}
   .tbl .gh td::before{float:none}
   .tbl .row td.t{border-left:3px solid;padding-left:10px}
-  .tbl .row td.t .main{all:unset;cursor:pointer;font-weight:700;letter-spacing:.06em;font-size:13px;text-transform:uppercase;color:var(--ink)}
+  .tbl .row td.t .main{all:unset;cursor:pointer;font-weight:700;letter-spacing:.01em;font-size:14.5px;text-transform:none;color:var(--ink)}
   .tbl .row td.t .main:hover{color:var(--accent)}
   .tbl .row td.t .main:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .tbl .row[data-done="1"] td.t .main{color:var(--dim)}
@@ -782,8 +784,16 @@
     aside>.card .x{top:8px;right:8px}
     /* needs / unlocks: list rows inside the docked card, so a prerequisite can
        be ticked or opened without leaving the mission */
-    aside>.card .kin{display:block;margin:14px -15px 0}
+    aside>.card .kin{display:block;margin:14px -15px 0;position:relative}
     aside>.card .kin .ghead{position:static}
+    /* the chain: a spine in the mission's colour runs down the left, through
+       the rows' colour bars, from what it needs to what it unlocks; the
+       mission itself is the node in the middle */
+    aside>.card .kin::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:2px;background:var(--tint,#666);opacity:.5}
+    aside>.card .kin .here{position:relative;display:flex;align-items:center;gap:10px;padding:7px 12px 7px 10px;
+      font-size:13.5px;letter-spacing:.01em;font-weight:700;color:var(--tint,#666);background:#0b0e15}
+    aside>.card .kin .here i{flex:none;width:4px;height:20px;background:var(--tint,#666);box-shadow:0 0 10px var(--tint,#666)}
+    aside>.card .kin .here span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   }
   .card .kin{display:none}
   .card .kin[hidden]{display:none}
@@ -792,7 +802,9 @@
     background:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 3px)}
   .card::after{content:"";position:absolute;right:0;bottom:0;width:16px;height:16px;pointer-events:none;
     border-right:1px solid var(--teal);border-bottom:1px solid var(--teal);opacity:.75}
-  .card h2{margin:0 0 3px;font-size:15.5px;letter-spacing:.09em;padding-right:18px;text-transform:uppercase}
+  /* the title is the biggest type on the page after the logo: the card is the
+     payoff of every click, and the name should land like one */
+  .card h2{margin:0 0 5px;font-size:23px;line-height:1.08;letter-spacing:.005em;font-weight:700;padding-right:18px;text-transform:none;overflow-wrap:anywhere}
   .card .kindline{font-size:11px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase}
   .card dl{margin:9px 0 0;display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:12.5px}
   .card dt{color:var(--dim);letter-spacing:.14em;text-transform:uppercase;font-size:11px}
@@ -802,8 +814,18 @@
   .card .group{display:flex;flex-wrap:wrap;gap:3px 8px;margin-top:2px;font-size:11.5px}
   .card .group a.ref{border:0;color:#8fd8ea}
   .card .group a.ref.done{color:var(--dim);text-decoration:line-through}
-  .card .acts{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px}
-  .card .acts .btn{width:100%;padding:0 8px;white-space:nowrap}
+  /* one action matters on a card: mark it done. It takes the whole first row,
+     solid, and drops to an outline once it's done — so the state is the
+     button. The three utilities sit under it, smaller and teal */
+  .card .acts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px}
+  .card .acts .btn{width:100%;padding:0 6px;white-space:nowrap;min-height:32px;font-size:11.5px}
+  .card .acts #doneBtn{grid-column:1/-1;min-height:42px;font-size:13.5px;letter-spacing:.2em}
+  .card .acts #doneBtn[aria-pressed="false"]{background:var(--accent);color:#07080d;border-color:var(--accent)}
+  .card .acts #doneBtn[aria-pressed="false"]::before{background:#000;opacity:.12}
+  .card .acts #doneBtn[aria-pressed="false"]:hover{color:#07080d}
+  .card .acts #doneBtn[aria-pressed="true"]{background:rgba(10,12,20,.92);color:var(--accent);border-color:rgba(252,238,10,.5)}
+  .card .acts #doneBtn[aria-pressed="true"]::before{display:block}
+  @media (pointer:coarse){.card .acts .btn{min-height:38px}.card .acts #doneBtn{min-height:46px}}
   .card .acts .ico{flex:none}
   .card .report{margin-top:10px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
   .card .report a{color:var(--faint);text-decoration:none;border-bottom:1px solid transparent}
@@ -824,7 +846,7 @@
   .tip{position:absolute;z-index:7;pointer-events:none;max-width:260px;padding:6px 10px 7px;
        background:rgba(9,11,17,.96);border:1px solid #2a3044;border-left:3px solid var(--accent);
        font-size:13px;line-height:1.25;box-shadow:0 6px 24px rgba(0,0,0,.5)}
-  .tip b{display:block;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+  .tip b{display:block;font-size:14px;letter-spacing:.01em;text-transform:none;font-weight:700}
   .tip span{display:block;margin-top:2px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
 
   /* KEY panel: replaces the poster's legend block, top-right of the map */
@@ -1011,6 +1033,12 @@
   .tools{position:absolute;right:14px;top:14px;z-index:5;display:flex;gap:6px;width:340px;max-width:calc(100% - 28px)}
   .tools .btn{flex:1 1 0;min-width:0;padding:0 6px}
   .tools #snapBtn{flex:1.4 1 0}
+  /* the two real actions carry words; the toggles are icons at the end */
+  .tools .btn.icon{flex:0 0 40px;padding:0}
+  #fx[aria-pressed="true"]{background:rgba(10,12,20,.92);color:var(--accent);border-color:rgba(252,238,10,.5)}
+  #fx[aria-pressed="true"]::before{display:block}
+  #fx[aria-pressed="false"]{color:var(--faint);border-color:var(--line)}
+  #fx[aria-pressed="false"] svg{opacity:.6}
   main[data-sheet="table"] #snapBtn{display:none}
   .sheets .next{margin-left:6px}
   .sheets .who{font-weight:600;letter-spacing:.06em;max-width:200px;overflow:hidden;text-overflow:ellipsis;opacity:.85}
@@ -1041,6 +1069,17 @@
        never changes when the list is in front */
     .shell{display:block;position:relative;height:100dvh}
     aside,main{position:absolute;left:0;right:0;top:0;bottom:56px}
+    /* the head of the panel is shorter on a phone: a smaller logo, and the
+       category filters as one row that scrolls sideways instead of a grid
+       four rows deep, so the first missions are on screen without scrolling */
+    .brand{padding:9px 16px 8px}
+    .brand h1{font-size:19px}
+    .brand .sub{font-size:11px;margin-top:3px}
+    .chips{display:flex;flex-wrap:nowrap;gap:5px;padding:8px 40px 8px 12px;overflow-x:auto;touch-action:pan-x;
+           scrollbar-width:none;-webkit-overflow-scrolling:touch;
+           mask-image:linear-gradient(90deg,#000 calc(100% - 32px),transparent);-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 32px),transparent)}
+    .chips::-webkit-scrollbar{display:none}
+    .chip{flex:none;min-height:32px;padding:0 6px 0 8px}
     aside{border-right:0;border-bottom:0;max-height:none;display:block;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
     /* the brand scrolls off; the search bar sticks; the footer holds the bottom edge */
     .find{position:sticky;top:0;z-index:3;background:linear-gradient(180deg,#0a1a1b,#081213)}
@@ -1133,7 +1172,7 @@
     <button class="totop" id="toTop" hidden title="Back to the top of the list" aria-label="Back to the top of the list">▲</button>
 
     <div class="foot">
-      <span>Fan-made · not endorsed by CDPR · <b>v1.0.9</b></span>
+      <span>Fan-made · not endorsed by CDPR · <b>v1.0.10</b></span>
       <button class="btn icon small fsFoot" id="fsFoot" title="Full screen (F)" aria-label="Full screen"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <a href="#" id="footAbout">About</a>
     </div>
@@ -1141,10 +1180,10 @@
 
   <main>
     <div class="tools">
-      <button class="btn" id="fx" title="Glitter on or off">Glitter</button>
       <button class="btn share" id="shareBtn" title="Copy a link that carries your done marks">Share</button>
       <button class="btn" id="snapBtn" title="Save the current view as a PNG — chart and marks, no UI">Save image</button>
-      <button class="btn ptoggle" id="panelToggle" aria-expanded="true">Hide list</button>
+      <button class="btn icon" id="fx" title="Glitter — backdrop motion on or off" aria-label="Glitter" aria-pressed="true"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 1.5 9.6 6.4 14.5 8 9.6 9.6 8 14.5 6.4 9.6 1.5 8 6.4 6.4Z" fill="currentColor"/></svg></button>
+      <button class="btn icon" id="panelToggle" aria-expanded="true" title="Hide list" aria-label="Hide list"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 2.5v11" stroke="currentColor" stroke-width="1.6"/><path d="M3 5.5h1.5M3 8h1.5M3 10.5h1.5" stroke="currentColor" stroke-width="1.2"/></svg></button>
     </div>
     <div class="ask" id="ask" hidden>
       <span id="askText"></span>
@@ -1600,6 +1639,7 @@ function resizeCanvas() {
    low-contrast on purpose; the chart stays the brightest thing on screen.
    Timing is wall-clock, not per-frame, so speed is the same at any fps. ---- */
 let still = null, field = [], fxOn = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.getElementById('fx').setAttribute('aria-pressed', fxOn);
 const t0 = performance.now();
 let lastNow = t0;
 
@@ -1719,7 +1759,7 @@ function drawField(now) {
     /* a fault in the motion must never throw every frame: turn the motion
        off, leave the still, say so once */
     fxOn = false; blitStill();
-    document.getElementById('fx').style.color = 'var(--faint)';
+    document.getElementById('fx').setAttribute('aria-pressed', 'false');
     console.warn('Backdrop motion disabled:', err);
   }
 }
@@ -2456,7 +2496,7 @@ stage.addEventListener('pointermove', e => {
   if (!m || m.id === picked) { hideTip(); return; }
   if (m !== tipFor) {
     tipFor = m; dirty = true;
-    tip.innerHTML = `<b>${esc(m.title)}</b><span>${esc(m.kind)}${m.giver ? ' · ' + esc(m.giver) : ''}</span>`;
+    tip.innerHTML = `<b>${esc(showTitle(m.title))}</b><span>${esc(m.kind)}${m.giver ? ' · ' + esc(m.giver) : ''}</span>`;
     tip.style.borderLeftColor = TINT[m.kind] || '#666';
     tip.hidden = false;
     stage.style.cursor = 'pointer';
@@ -2569,7 +2609,7 @@ function decodeInto(el, text, key) {
 }
 function showCard(m) {
   document.getElementById('doneBtn').hidden = false;
-  decodeInto(document.getElementById('cardName'), m.title, m.id);
+  decodeInto(document.getElementById('cardName'), showTitle(m.title), m.id);
   drawKin(m);
   document.getElementById('cardChk').hidden = !VERIFIED.has(m.slug);
   document.getElementById('cardKind').textContent = m.kind.toUpperCase();
@@ -2581,11 +2621,12 @@ function showCard(m) {
     '&body=' + encodeURIComponent('**Mission:** ' + m.title + '\n**Link:** https://litework.github.io/cyberpunk/#' + m.slug +
       '\n\n**The page shows:**\n' + (shows || '(nothing beyond the title)') + '\n\n**The game shows:**\n\n\n**Anything else:**\n');
   card.style.borderLeftColor = card.style.borderTopColor = TINT[m.kind] || '#666';
+  card.style.setProperty('--tint', TINT[m.kind] || '#666');   /* the requirement chain's spine */
   const dl = document.getElementById('cardMeta');
   dl.innerHTML = '';
   const add = (k, v, raw) => { if (v) dl.insertAdjacentHTML('beforeend', `<dt>${k}</dt><dd>${raw ? v : esc(v)}</dd>`); };
-  const refLink = t => `<a class="ref${done.has(t.slug) ? ' done' : ''}" href="#${t.slug}" data-id="${t.id}">${esc(t.title)}</a>`;
-  add('From', m.giver);
+  const refLink = t => `<a class="ref${done.has(t.slug) ? ' done' : ''}" href="#${t.slug}" data-id="${t.id}">${esc(showTitle(t.title))}</a>`;
+  add('From', m.giver && nameCase(m.giver));
   if (m.district) {
     const parts = m.district.split(',').map(t => t.trim()).filter(Boolean).map(t => {
       const d = CITY.districts.find(x => x.subs.includes(t));
@@ -2642,6 +2683,12 @@ function wikiTitle(t) {
   }).join(' ');
 }
 const wikiUrl = m => 'https://cyberpunk.fandom.com/index.php?go=Go&search=' + encodeURIComponent(wikiTitle(m.title));
+/* display case: the data keeps the poster's capitals, and so does the chart.
+   The list, the table, the card and the hover label set titles and names in
+   mixed case, so the chrome — buttons, headers, badges — is the only thing
+   left in capitals and the missions read as missions */
+function showTitle(t) { return wikiTitle(t).replace(/-([a-z])/g, (m, c) => '-' + c.toUpperCase()); }   /* The Corpo-Rat */
+function nameCase(s) { return s.toLowerCase().replace(/(^|[\s\-.(])([a-z])/g, (m, a, b) => a + b.toUpperCase()); }
 function syncCardStatus(m) {
   const k = document.getElementById('cardKind');
   const st = nextIds.has(m.id) ? 'next' : status(m);
@@ -3041,7 +3088,7 @@ function render() {
     html += `<div class="hit" data-id="${m.id}" data-on="${m.id === picked ? 1 : 0}" data-done="${dn ? 1 : 0}" data-missed="${missed.has(m.slug) ? 1 : 0}" data-st="${st}">
       <span class="bar" style="background:${TINT[m.kind] || '#666'}"></span>
       <button class="ck" role="checkbox" aria-checked="${dn}" aria-label="${dn ? 'Done' : 'Mark done'}: ${esc(m.title)}" title="${dn ? 'Done — click to undo' : 'Mark done'}"></button>
-      <button class="main" aria-label="${esc(m.title)}${st === 'next' ? ', next' : st === 'ready' || st === 'locked' ? ', ' + st : ''}"><span class="name">${mark(m.title, term)}</span>
+      <button class="main" aria-label="${esc(m.title)}${st === 'next' ? ', next' : st === 'ready' || st === 'locked' ? ', ' + st : ''}"><span class="name">${mark(showTitle(m.title), term)}</span>
       ${meta ? `<span class="meta">${mark(meta, term)}</span>` : ''}${req}</button>
       ${badge}
     </div>`;
@@ -3125,7 +3172,7 @@ function renderTable(shown) {
   const groups = new Map();
   for (const m of shown) { const g = groupOf(m); if (!groups.has(g)) groups.set(g, []); groups.get(g).push(m); }
   const order = [...STORY_ORDER, 'Main mission', ...ORDER.filter(k => !MAINS.has(k) && k !== 'Interlude')];
-  const ref = t => `<a data-id="${t.id}" class="${done.has(t.slug) ? 'done' : ''}">${esc(t.title)}</a>`;
+  const ref = t => `<a data-id="${t.id}" class="${done.has(t.slug) ? 'done' : ''}">${esc(showTitle(t.title))}</a>`;
   let html = `<table><colgroup><col style="width:34px"><col style="width:24%"><col style="width:15%"><col class="d" style="width:16%"><col style="width:15%"><col class="u" style="width:15%"><col style="width:84px"></colgroup><thead><tr><th class="c"></th>` + COLS.map(([k, label, cls]) =>
     `<th class="${cls}"${tblSort.col === k ? ` aria-sort="${tblSort.dir > 0 ? 'ascending' : 'descending'}"` : ''}><button data-sort="${k}">${label}</button></th>`).join('') + `</tr></thead><tbody>`;
   const term = q.value.trim().toLowerCase();
@@ -3154,7 +3201,7 @@ function renderTable(shown) {
                   : dn ? '<span class="st locked">Done</span>' : '';
       html += `<tr class="row" data-id="${m.id}" data-on="${m.id === picked ? 1 : 0}" data-done="${dn ? 1 : 0}" data-missed="${missed.has(m.slug) ? 1 : 0}" data-st="${st}">
         <td class="c"><button class="ck" role="checkbox" aria-checked="${dn}" aria-label="${dn ? 'Done' : 'Mark done'}: ${esc(m.title)}"></button></td>
-        <td class="t" style="border-left-color:${TINT[m.kind] || '#666'}"><button class="main">${esc(m.title)}</button></td>
+        <td class="t" style="border-left-color:${TINT[m.kind] || '#666'}"><button class="main">${esc(showTitle(m.title))}</button></td>
         <td class="m g">${esc(m.giver || '')}</td><td class="m d">${esc(m.district || '')}</td>
         <td class="r">${needs.map(ref).join('')}</td><td class="r u">${unlocks.map(ref).join('')}</td>
         <td class="s">${badge}</td></tr>`;
@@ -3213,7 +3260,7 @@ function rowHtml(m) {
   return `<div class="hit" data-id="${m.id}" data-on="0" data-done="${dn ? 1 : 0}" data-missed="${missed.has(m.slug) ? 1 : 0}" data-st="${st}">
       <span class="bar" style="background:${TINT[m.kind] || '#666'}"></span>
       <button class="ck" role="checkbox" aria-checked="${dn}" aria-label="${dn ? 'Done' : 'Mark done'}: ${esc(m.title)}"></button>
-      <button class="main" aria-label="${esc(m.title)}"><span class="name">${esc(m.title)}</span><span class="meta">${esc(meta)}</span></button>
+      <button class="main" aria-label="${esc(m.title)}"><span class="name">${esc(showTitle(m.title))}</span><span class="meta">${esc(meta)}</span></button>
       ${badge}
     </div>`;
 }
@@ -3224,7 +3271,9 @@ function drawKin(m) {
   const needs = new Set(); for (const r of m.reqs) for (const t of [...r.refs, ...r.group]) needs.add(t);
   const nd = [...needs].sort(chartOrder), un = m.affects.filter(t => !needs.has(t)).sort(chartOrder);
   const sec = (label, list) => list.length ? `<div class="ghead"><span>${label}</span><b>${list.length}</b></div>` + list.map(rowHtml).join('') : '';
-  kinEl.innerHTML = sec('Needs', nd) + sec('Unlocks', un);
+  /* the chain reads top to bottom: what it needs, this mission, what it unlocks */
+  const here = `<div class="here"><i></i><span>${esc(showTitle(m.title))}</span></div>`;
+  kinEl.innerHTML = sec('Needs', nd) + here + sec('Unlocks', un);
   kinEl.hidden = !(nd.length || un.length);
 }
 kinEl.addEventListener('click', e => {
@@ -3423,7 +3472,7 @@ for (const ev of ['fullscreenchange', 'webkitfullscreenchange']) document.addEve
 });
 document.getElementById('fx').onclick = e => {
   fxOn = !fxOn;
-  e.currentTarget.style.color = fxOn ? '' : 'var(--faint)';
+  e.currentTarget.setAttribute('aria-pressed', fxOn);
   if (!fxOn) blitStill();   /* motion off leaves the still, not a black hole */
 };
 document.getElementById('z100').onclick = () => {
@@ -3652,7 +3701,8 @@ const shell = document.querySelector('.shell');
 const toggle = document.getElementById('panelToggle');
 function setPanel(open) {
   shell.classList.toggle('collapsed', !open);
-  toggle.textContent = open ? 'Hide list' : 'Show list';
+  toggle.title = open ? 'Hide list' : 'Show list';
+  toggle.setAttribute('aria-label', toggle.title);
   toggle.setAttribute('aria-expanded', open);
   requestAnimationFrame(relayout);
 }
