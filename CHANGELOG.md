@@ -6,7 +6,7 @@ Numbering: `1.x` is a round of changes agreed in advance; `1.x.y` is a nudge ins
 
 ## 1.0
 
-- **1.0.11** — 12 missions the poster omits added as off-chart entries (searchable and tickable, no tile): Welcome to Paradise, Clampdown, Shape of a Pony, Nitro (Youth Energy), You Tell Me, Freedom, Motorbreath, The Distance, Where Eagles Dare, I Really Want to Stay at Your House, Dirty Second Hands, Corpo of the Month. 
+- **1.0.11** — 12 missions the poster omits added as off-chart entries (searchable and tickable, no tile): Welcome to Paradise, Clampdown, Shape of a Pony, Nitro (Youth Energy), You Tell Me, Freedom, Motorbreath, The Distance, Where Eagles Dare, I Really Want to Stay at Your House, Dirty Second Hands, Corpo of the Month. `4cabddd`
 - **1.0.10** — NEXT stops at a locked story mission instead of leapfrogging it; the card shows what the gate needs. `063e6b5`
 - **1.0.10** — Mission names in mixed case in the list, table and card, with the chrome keeping the capitals; the card's title larger, Mark done solid across the first row, and a coloured spine through its needs and unlocks; on phones the category filters are one sideways-scrolling row; Glitter and Hide list are icons. `9944e7d`
 - **1.0.9** — The KEY's connector legend is redrawn after the poster's own: three diagrams whose tiles carry the explanation. `6d6c3f8`
