@@ -4,7 +4,7 @@
 
 # Cyberpunk 2077 Mission Tree
 
-**Every mission, side job, gig and ending in Cyberpunk 2077 and Phantom Liberty — 363 entries — searchable, with progress that tells you what's next.**
+**Every mission, side job, gig and ending in Cyberpunk 2077 and Phantom Liberty — 375 entries — searchable, with progress that tells you what's next.**
 
 [![Open the site](https://img.shields.io/badge/open-litework.github.io%2Fcyberpunk-fcee0a?style=for-the-badge&labelColor=07080d)](https://litework.github.io/cyberpunk/)
 [![Version](https://img.shields.io/badge/version-1.0-4fe0e6?style=for-the-badge&labelColor=07080d)](https://github.com/litework/cyberpunk/releases)
