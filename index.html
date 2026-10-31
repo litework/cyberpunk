@@ -3042,7 +3042,10 @@ function render() {
      once it has begun, because Nocturne is the point of no return */
   const pl = plStarted();
   const story = inOrder.filter(m => isStory(m)).sort((a, b) => storyRank(a, pl) - storyRank(b, pl) || chartCmp(a, b));
-  const nx = story.find(open) || inOrder.find(open);
+  /* a locked story mission is a gate, not something to leapfrog: NEXT stops
+     there and the card says what it needs. Side content still skips locks */
+  const notDone = m => { const st = status(m); return st !== 'done' && st !== 'missed' && st !== 'na'; };
+  const nx = story.find(notDone) || inOrder.find(open);
   nextId = nx ? nx.id : null;
   /* before a lifepath is chosen, all three prologues are "next" */
   const choosing = nx && LIFEPATHS.includes(nx.title);
